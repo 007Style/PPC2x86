@@ -3,7 +3,7 @@ app.py — wx.App subclass and MainFrame for PPC2x86.
 
 Launching
 ---------
-    from gui.app import PPC2x86App
+    from ppc2x86.gui.app import PPC2x86App
     app = PPC2x86App(initial_mode="32")
     app.MainLoop()
 """
@@ -16,19 +16,13 @@ import os
 import wx
 import wx.aui
 
-# Make sure project root is on sys.path when running gui directly
-_HERE = os.path.dirname(os.path.abspath(__file__))
-_ROOT = os.path.dirname(_HERE)
-if _ROOT not in sys.path:
-    sys.path.insert(0, _ROOT)
-
-from gui.theme import THEME, apply_theme, get_font
-from gui.mode_bar import (
+from ppc2x86.gui.theme import THEME, apply_theme, get_font
+from ppc2x86.gui.mode_bar import (
     ModeBar,
     EVT_DIRECTION_CHANGED,
     EVT_MODE_CHANGED,
 )
-from gui.widgets.ticker_bar import TickerBar
+from ppc2x86.gui.widgets.ticker_bar import TickerBar
 
 
 # ---------------------------------------------------------------------------
@@ -98,7 +92,7 @@ class MainFrame(wx.Frame):
         self._ticker.start()
 
         # Attach easter egg manager
-        from gui.easter_eggs import EasterEggManager
+        from ppc2x86.gui.easter_eggs import EasterEggManager
         self._egg_manager = EasterEggManager(self)
 
     # ------------------------------------------------------------------
@@ -201,7 +195,7 @@ class MainFrame(wx.Frame):
         self.SetSizer(outer)
 
         # --- Lookup tab ---
-        from gui.main_panel import MainLookupPanel
+        from ppc2x86.gui.main_panel import MainLookupPanel
         self._lookup_panel = MainLookupPanel(
             self._notebook,
             direction=self._mode_bar.direction,
@@ -210,7 +204,7 @@ class MainFrame(wx.Frame):
         self._notebook.AddPage(self._lookup_panel, "Lookup", select=True)
 
         # --- ISA Museum tab ---
-        from gui.isa_museum import ISAMuseumPanel
+        from ppc2x86.gui.isa_museum import ISAMuseumPanel
         self._museum_panel = ISAMuseumPanel(self._notebook)
         self._notebook.AddPage(self._museum_panel, "ISA Museum", select=False)
 
@@ -244,13 +238,13 @@ class MainFrame(wx.Frame):
                 break
 
     def _on_about(self, _event) -> None:
-        from gui.widgets.about_dialog import AboutDialog
+        from ppc2x86.gui.widgets.about_dialog import AboutDialog
         dlg = AboutDialog(self)
         dlg.ShowModal()
         dlg.Destroy()
 
     def _on_random_fact(self, _event) -> None:
-        from data.isa_trivia import ISA_FACTS
+        from ppc2x86.data.isa_trivia import ISA_FACTS
         import random
         fact = random.choice(ISA_FACTS)
         isa  = fact.get("isa", "?").upper()
@@ -263,9 +257,9 @@ class MainFrame(wx.Frame):
         )
 
     def _on_instr_stats(self, _event) -> None:
-        from data.ppc_instructions import PPC_INSTRUCTIONS
-        from data.x86_instructions import X86_INSTRUCTIONS
-        from data.mappings import PPC_TO_X86
+        from ppc2x86.data.ppc_instructions import PPC_INSTRUCTIONS
+        from ppc2x86.data.x86_instructions import X86_INSTRUCTIONS
+        from ppc2x86.data.mappings import PPC_TO_X86
         msg = (
             f"Instruction counts\n"
             f"──────────────────\n"
@@ -276,13 +270,13 @@ class MainFrame(wx.Frame):
         wx.MessageBox(msg, "Instruction Count Stats", wx.OK | wx.ICON_INFORMATION, self)
 
     def _on_isa_timeline(self, _event) -> None:
-        from gui.isa_museum import ISATimelineDialog
+        from ppc2x86.gui.isa_museum import ISATimelineDialog
         dlg = ISATimelineDialog(self)
         dlg.ShowModal()
         dlg.Destroy()
 
     def _on_bench_trivia(self, _event) -> None:
-        from data.isa_trivia import ISA_FACTS
+        from ppc2x86.data.isa_trivia import ISA_FACTS
         import random
         pool = [f for f in ISA_FACTS if f.get("category") == "benchmark"]
         if not pool:
@@ -297,7 +291,7 @@ class MainFrame(wx.Frame):
         )
 
     def _on_statusbar_right_click(self, _event) -> None:
-        from data.isa_trivia import COMPILER_QUOTES
+        from ppc2x86.data.isa_trivia import COMPILER_QUOTES
         import random
         quote = random.choice(COMPILER_QUOTES)
         wx.MessageBox(quote, "Compiler Quote", wx.OK | wx.ICON_INFORMATION, self)
@@ -318,12 +312,12 @@ class MainFrame(wx.Frame):
 
     @staticmethod
     def _ppc_count():
-        from data.ppc_instructions import PPC_INSTRUCTIONS
+        from ppc2x86.data.ppc_instructions import PPC_INSTRUCTIONS
         return PPC_INSTRUCTIONS
 
     @staticmethod
     def _x86_count():
-        from data.x86_instructions import X86_INSTRUCTIONS
+        from ppc2x86.data.x86_instructions import X86_INSTRUCTIONS
         return X86_INSTRUCTIONS
 
 

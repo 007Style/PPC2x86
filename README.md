@@ -58,9 +58,9 @@ Everything is embedded in plain Python source files. No database. No network. No
 - **Menu bar** — File, View, ISA Museum, Extras (ISA Timeline, Instruction Count Stats, Random ISA Fact, Benchmark Trivia), Help
 
 ### CLI
-- Single-shot: `python ppc2x86.py --from ppc --instr fadd` — prints a formatted result card with ANSI colour codes, confidence badge, full instruction details, and notes
+- Single-shot: `ppc2x86 --from ppc --instr fadd` — prints a formatted result card with ANSI colour codes, confidence badge, full instruction details, and notes
 - Plain text output when not a TTY — safe for scripts and `grep`
-- REPL: `python ppc2x86.py` — full interactive session with command history via `readline`, all commands below
+- REPL: `ppc2x86` — full interactive session with command history via `readline`, all commands below
 - `--mode 32|64` flag on both single-shot and REPL
 
 ### ISA Museum content
@@ -93,6 +93,27 @@ Nine architectures profiled and covered with trivia:
 
 ---
 
+## Install with pipx (recommended)
+
+```bash
+pipx install ppc2x86
+ppc2x86 --from ppc --instr lwz     # single lookup
+ppc2x86                            # interactive REPL
+```
+
+The CLI and REPL have no dependencies. For the retro ISA-museum GUI, add wxPython to the same
+isolated environment, then launch it:
+
+```bash
+pipx inject ppc2x86 wxPython
+ppc2x86 --gui
+```
+
+Upgrade with `pipx upgrade ppc2x86`; remove with `pipx uninstall ppc2x86`. If the command is not found,
+run `pipx ensurepath` and open a new terminal.
+
+---
+
 ## Requirements
 
 - **Python 3.9+**
@@ -109,13 +130,14 @@ That is the only external dependency. Everything else — all instruction data, 
 ## Installation
 
 ```bash
-git clone <repo>            # or just copy the folder
+git clone https://github.com/007Style/PPC2x86.git
 cd PPC2x86
-pip install wxPython        # skip if you only need the CLI
-python ppc2x86.py --help
+pip install -e .              # CLI / REPL only
+pip install -e '.[gui]'       # plus the wxPython GUI
+ppc2x86 --help
 ```
 
-No `setup.py`, no `pyproject.toml`, no build step. It is a single Python package folder. Run it.
+Standard `src/` layout with `pyproject.toml`; nothing to compile.
 
 ---
 
@@ -124,33 +146,33 @@ No `setup.py`, no `pyproject.toml`, no build step. It is a single Python package
 ### GUI
 
 ```bash
-python ppc2x86.py --gui
-python ppc2x86.py --gui --mode 64
+ppc2x86 --gui
+ppc2x86 --gui --mode 64
 ```
 
 ### Single-shot CLI
 
 ```bash
 # PPC → x86
-python ppc2x86.py --from ppc --instr lwz
-python ppc2x86.py --from ppc --instr fadd --mode 64
-python ppc2x86.py --from ppc --instr vaddubm
-python ppc2x86.py --from ppc --instr fmadd        # suggestion — no SSE2 FMA
+ppc2x86 --from ppc --instr lwz
+ppc2x86 --from ppc --instr fadd --mode 64
+ppc2x86 --from ppc --instr vaddubm
+ppc2x86 --from ppc --instr fmadd        # suggestion — no SSE2 FMA
 
 # x86 → PPC
-python ppc2x86.py --from x86 --instr MOV
-python ppc2x86.py --from x86 --instr PADDB
-python ppc2x86.py --from x86 --instr SYSCALL --mode 64
+ppc2x86 --from x86 --instr MOV
+ppc2x86 --from x86 --instr PADDB
+ppc2x86 --from x86 --instr SYSCALL --mode 64
 
 # Pipe-friendly (no colour codes when stdout is not a TTY)
-python ppc2x86.py --from ppc --instr add | cat
+ppc2x86 --from ppc --instr add | cat
 ```
 
 ### Interactive REPL
 
 ```bash
-python ppc2x86.py           # enters REPL when no args are given
-python ppc2x86.py --repl    # force REPL explicitly
+ppc2x86           # enters REPL when no args are given
+ppc2x86 --repl    # force REPL explicitly
 ```
 
 REPL commands:
@@ -170,7 +192,7 @@ REPL commands:
 Example session:
 
 ```
-$ python ppc2x86.py
+$ ppc2x86
 
   PPC2x86 — ISA Translation Station  v1.0.0
   Direction: PPC → x86   Mode: 32-bit
@@ -217,8 +239,9 @@ ppc2x86[x86/32]> quit
 ## Project Structure
 
 ```
-PPC2x86/
-├── ppc2x86.py              ← Entry point — CLI single-shot, REPL, and GUI launch
+PPC2x86/                    (packages below live in src/ppc2x86/)
+├── src/ppc2x86/cli.py      ← Entry point — CLI single-shot, REPL, and GUI launch
+├── pyproject.toml          ← packaging; wxPython is the optional [gui] extra
 │
 ├── core/
 │   ├── engine.py           ← InstructionEngine class — all lookup/search logic
@@ -243,7 +266,7 @@ PPC2x86/
 │       ├── ticker_bar.py       ← Timer-driven scrolling trivia ticker
 │       └── about_dialog.py     ← About dialog + hidden ★ click zone
 │
-├── requirements.txt
+├── LICENSE
 └── README.md
 ```
 
@@ -252,7 +275,7 @@ PPC2x86/
 ## Architecture
 
 ```
-ppc2x86.py
+ppc2x86/cli.py
     │
     ├── CLI path ──────────────────────────────────────────────────────────┐
     │   argparse → run_single_shot() or run_repl()                         │
@@ -353,7 +376,7 @@ When you see `[SUGGESTION]`, read the notes. Do not blindly copy the x86 mnemoni
 
 ## License
 
-Not yet licensed. All rights reserved by the authors.
+MIT — see [LICENSE](LICENSE).
 
 ---
 
@@ -367,3 +390,7 @@ Special appreciation to the architects, engineers, and compiler writers whose wo
 
 *"The purpose of abstracting is not to be vague, but to create a new semantic level in which one can be absolutely precise."*  
 — Edsger W. Dijkstra
+
+---
+
+> *From the minds of IBM Bob & Daneyand*

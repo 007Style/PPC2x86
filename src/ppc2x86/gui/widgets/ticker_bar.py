@@ -6,7 +6,7 @@ Content is drawn with wx.PaintDC.
 
 Usage
 -----
-    from gui.widgets.ticker_bar import TickerBar
+    from ppc2x86.gui.widgets.ticker_bar import TickerBar
     ticker = TickerBar(parent)
     ticker.start()
 """
@@ -16,8 +16,8 @@ from __future__ import annotations
 import random
 import wx
 
-from gui.theme import THEME, get_font
-from data.isa_trivia import ISA_FACTS
+from ppc2x86.gui.theme import THEME, get_font
+from ppc2x86.data.isa_trivia import ISA_FACTS
 
 
 class TickerBar(wx.Panel):

@@ -12,8 +12,8 @@ import datetime
 import wx
 import wx.richtext
 
-from gui.theme import THEME, get_font, confidence_colour
-from core.engine import LookupResult
+from ppc2x86.gui.theme import THEME, get_font, confidence_colour
+from ppc2x86.core.engine import LookupResult
 
 
 class ResultPanel(wx.Panel):

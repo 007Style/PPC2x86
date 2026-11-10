@@ -9,20 +9,20 @@ or launch the retro ISA-museum GUI.
 Usage examples
 --------------
 Single-shot lookup (PPC → x86):
-    python ppc2x86.py --from ppc --instr lwz
-    python ppc2x86.py --from ppc --instr fmadd --mode 64
+    ppc2x86 --from ppc --instr lwz
+    ppc2x86 --from ppc --instr fmadd --mode 64
 
 Single-shot lookup (x86 → PPC):
-    python ppc2x86.py --from x86 --instr MOV
-    python ppc2x86.py --from x86 --instr PADDB --mode 64
+    ppc2x86 --from x86 --instr MOV
+    ppc2x86 --from x86 --instr PADDB --mode 64
 
 Interactive REPL (no arguments, or force with --repl):
-    python ppc2x86.py
-    python ppc2x86.py --repl
+    ppc2x86
+    ppc2x86 --repl
 
 Launch the wxPython GUI:
-    python ppc2x86.py --gui
-    python ppc2x86.py --gui --mode 64
+    ppc2x86 --gui
+    ppc2x86 --gui --mode 64
 
 REPL commands
 -------------
@@ -71,11 +71,7 @@ def _c(name: str, text: str) -> str:
 
 def _get_engine():
     """Import and return a shared InstructionEngine instance."""
-    # Add the project root to sys.path so sub-packages resolve correctly
-    _here = os.path.dirname(os.path.abspath(__file__))
-    if _here not in sys.path:
-        sys.path.insert(0, _here)
-    from core.engine import InstructionEngine
+    from ppc2x86.core.engine import InstructionEngine
     return InstructionEngine()
 
 
@@ -280,7 +276,7 @@ def run_repl(args: argparse.Namespace) -> None:
         except ImportError:
             pass
 
-    from data.isa_trivia import COMPILER_QUOTES
+    from ppc2x86.data.isa_trivia import COMPILER_QUOTES
     import random
 
     direction = "ppc"
@@ -400,20 +396,18 @@ def run_repl(args: argparse.Namespace) -> None:
 
 def run_gui(args: argparse.Namespace) -> None:
     """Launch the wxPython GUI."""
-    _here = os.path.dirname(os.path.abspath(__file__))
-    if _here not in sys.path:
-        sys.path.insert(0, _here)
     try:
         import wx  # noqa: F401
     except ImportError:
         print(
             "wxPython is not installed. Install it with:\n"
-            "  pip install wxPython\n"
+            "  pipx inject ppc2x86 wxPython     (if installed with pipx)\n"
+            "  pip install wxPython           (pip / virtualenv)\n"
             "or visit https://wxpython.org/pages/downloads/"
         )
         sys.exit(1)
     try:
-        from gui.app import PPC2x86App
+        from ppc2x86.gui.app import PPC2x86App
     except ImportError:
         print("GUI not yet fully implemented.")
         sys.exit(0)

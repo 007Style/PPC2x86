@@ -6,7 +6,7 @@ classic ISA-era workstation consoles.
 
 Usage
 -----
-    from gui.theme import THEME, apply_theme, get_font
+    from ppc2x86.gui.theme import THEME, apply_theme, get_font
 
     apply_theme(window)          # recursively set bg/fg on a wx.Window
     font = get_font(size=12, bold=True)

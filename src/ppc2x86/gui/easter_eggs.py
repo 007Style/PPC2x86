@@ -13,8 +13,8 @@ from __future__ import annotations
 
 import wx
 
-from gui.theme import THEME, get_font
-from data.isa_trivia import KONAMI_UNLOCK_TEXT, HIDDEN_MESSAGES, COMPILER_QUOTES
+from ppc2x86.gui.theme import THEME, get_font
+from ppc2x86.data.isa_trivia import KONAMI_UNLOCK_TEXT, HIDDEN_MESSAGES, COMPILER_QUOTES
 
 
 # Konami sequence as wx key codes

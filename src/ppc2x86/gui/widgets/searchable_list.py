@@ -10,7 +10,7 @@ from __future__ import annotations
 import wx
 import wx.lib.newevent
 
-from gui.theme import THEME, get_font
+from ppc2x86.gui.theme import THEME, get_font
 
 InstrSelectedEvent, EVT_INSTR_SELECTED = wx.lib.newevent.NewCommandEvent()
 

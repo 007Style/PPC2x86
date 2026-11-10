@@ -12,8 +12,8 @@ from __future__ import annotations
 import wx
 import wx.lib.scrolledpanel as scrolled
 
-from gui.theme import THEME, get_font, confidence_colour
-from data.isa_trivia import ISA_PROFILES, ISA_FACTS
+from ppc2x86.gui.theme import THEME, get_font, confidence_colour
+from ppc2x86.data.isa_trivia import ISA_PROFILES, ISA_FACTS
 
 
 class ISAMuseumPanel(wx.Panel):

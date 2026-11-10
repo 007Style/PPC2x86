@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ppc2x86"
+version = "1.0.0"
+description = "PowerPC <-> x86 / x64 instruction picker: CLI, REPL and retro ISA-museum GUI"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["powerpc", "ppc", "x86", "isa", "assembly", "instruction-set", "reference", "cli"]
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Software Development :: Disassemblers",
+    "Topic :: Software Development :: Documentation",
+]
+dependencies = []
+
+[project.optional-dependencies]
+# Retro ISA-museum GUI (the CLI and REPL need nothing)
+gui = [
+    "wxPython>=4.2",
+]
+
+[project.scripts]
+ppc2x86 = "ppc2x86.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/007Style/PPC2x86"
+Source = "https://github.com/007Style/PPC2x86"
+Issues = "https://github.com/007Style/PPC2x86/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"

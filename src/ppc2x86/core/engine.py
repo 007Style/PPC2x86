@@ -20,11 +20,11 @@ from __future__ import annotations
 import random
 from dataclasses import dataclass, field
 
-from data.ppc_instructions import PPC_INSTRUCTIONS
-from data.x86_instructions import X86_INSTRUCTIONS
-from data.mappings import PPC_TO_X86, X86_TO_PPC, MappingEntry
-from data.isa_trivia import ISA_FACTS, ISA_PROFILES, COMPILER_QUOTES
-from core.fuzzy import fuzzy_match
+from ppc2x86.data.ppc_instructions import PPC_INSTRUCTIONS
+from ppc2x86.data.x86_instructions import X86_INSTRUCTIONS
+from ppc2x86.data.mappings import PPC_TO_X86, X86_TO_PPC, MappingEntry
+from ppc2x86.data.isa_trivia import ISA_FACTS, ISA_PROFILES, COMPILER_QUOTES
+from ppc2x86.core.fuzzy import fuzzy_match
 
 
 @dataclass
